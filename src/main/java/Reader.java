@@ -3,6 +3,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Reader {
@@ -13,8 +14,8 @@ public class Reader {
 
     public Reader() {
         this.document = null;
-        this.top250 = null;
-        this.topPopular = null;
+        this.top250 = new HashMap<String, Filme>();
+        this.topPopular = new HashMap<String, Filme>();
     }
 
     public Document getDocument() {
