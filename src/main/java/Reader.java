@@ -8,14 +8,13 @@ import java.util.Map;
 public class Reader {
 
     private Document document;
-    private Map<String,Filme> lista;
+    private Map<String,Filme> top250;
+    private Map<String,Filme> topPopular;
 
     public Reader() {
-    }
-
-    public Reader(Document document, Map<String, Filme> lista) {
-        this.document = document;
-        this.lista = lista;
+        this.document = null;
+        this.top250 = null;
+        this.topPopular = null;
     }
 
     public Document getDocument() {
@@ -26,16 +25,24 @@ public class Reader {
         this.document = document;
     }
 
-    public Map<String, Filme> getLista() {
-        return lista;
+    public Map<String, Filme> gettop250() {
+        return top250;
     }
 
-    public void setLista(Map<String, Filme> lista) {
-        this.lista = lista;
+    public void setTop250(Map<String, Filme> top250) {
+        this.top250 = top250;
+    }
+
+    public void setTopPopular(Map<String, Filme> topPopular){
+        this.topPopular = topPopular;
     }
 
     public Document getDocumentoTop250() throws IOException {
         return Jsoup.connect("http://www.imdb.com/chart/top").get();
+    }
+
+    public Document getDocumentoTopPopular() throws  IOException{
+        return Jsoup.connect("http://www.imdb.com/chart/moviemeter").get();
     }
 
     public void lerdocumentotop250() {
@@ -50,8 +57,29 @@ public class Reader {
                 parts = user.split(" ");
                 int i = Integer.parseInt(parts[3].replace(",",""));
                 Filme filme = new Filme(title, year, rating, i);
-                this.lista.put(title, filme);
+                this.top250.put(title, filme);
             }
-         }
+        }
     }
+
+    public void lerdocumentotoppopular() {
+        String parts[] = new String[5];
+
+        for (Element row : this.document.select("table.chart.full-width tr")) {
+            String title = row.select(".titleColumn a").text();
+            String rating = row.select(".imdbRating").text();
+            String year = row.select(".SecondaryInfo").text();
+            String user = row.select("strong").attr("title");
+            if(!(user.equals(""))) {
+                parts = user.split(" ");
+                int i = Integer.parseInt(parts[3].replace(",",""));
+                Filme filme = new Filme(title, year, rating, i);
+                this.topPopular.put(title, filme);
+            }else if(user.equals("") && !(title.equals(""))){
+                Filme filme = new Filme(title, year, rating, 0);
+                this.topPopular.put(title, filme);
+            }
+        }
+    }
+
 }
