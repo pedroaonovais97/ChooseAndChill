@@ -48,10 +48,10 @@ public class Reader {
             String user = row.select("strong").attr("title");
             if(!(user.equals(""))) {
                 parts = user.split(" ");
-                Filme filme = new Filme(title, year, rating, parts[3]);
+                int i = Integer.parseInt(parts[3].replace(",",""));
+                Filme filme = new Filme(title, year, rating, i);
                 this.lista.put(title, filme);
             }
-            Filme filme = new Filme(title, year, rating, parts[3]);
          }
     }
 }
