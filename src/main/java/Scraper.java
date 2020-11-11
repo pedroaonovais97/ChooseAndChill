@@ -39,5 +39,12 @@ public class Scraper {
             System.out.println(count1 + " -> " + e.getValue().toString());
             count1++;
         }
+
+        System.out.println("\n----------------------------------------------\n");
+
+        for(Map.Entry<String,Filme> e : filmestoppopular.entrySet()){
+            if(e.getValue().getNruser() == 0)
+                System.out.println(e.getValue().toString());
+        }
     }
 }

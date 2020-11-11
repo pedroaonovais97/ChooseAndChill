@@ -3,6 +3,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,15 +48,14 @@ public class Reader {
     }
 
     public void lerdocumentotop250() {
-        String parts[] = new String[5];
 
         for (Element row : this.document.select("table.chart.full-width tr")) {
             String title = row.select(".titleColumn a").text();
             String rating = row.select(".imdbRating").text();
-            String year = row.select(".SecondaryInfo").text();
+            String year = row.select(".SecondaryInfo").text().replaceAll("[()]","");
             String user = row.select("strong").attr("title");
             if(!(user.equals(""))) {
-                parts = user.split(" ");
+                String[] parts = user.split(" ");
                 int i = Integer.parseInt(parts[3].replace(",",""));
                 Filme filme = new Filme(title, year, rating, i);
                 this.top250.put(title, filme);
@@ -64,19 +64,20 @@ public class Reader {
     }
 
     public void lerdocumentotoppopular() {
-        String parts[] = new String[5];
 
         for (Element row : this.document.select("table.chart.full-width tr")) {
             String title = row.select(".titleColumn a").text();
             String rating = row.select(".imdbRating").text();
-            String year = row.select(".SecondaryInfo").text();
+            String year = row.select(".SecondaryInfo").text().replaceAll("[()]","");
             String user = row.select("strong").attr("title");
             if(!(user.equals(""))) {
-                parts = user.split(" ");
+                String[] parts = user.split(" ");
                 int i = Integer.parseInt(parts[3].replace(",",""));
-                Filme filme = new Filme(title, year, rating, i);
+                String[] parts1 = new String[2];
+                parts1 = year.split(" ");
+                Filme filme = new Filme(title, parts1[0], rating, i);
                 this.topPopular.put(title, filme);
-            }else if(user.equals("") && !(title.equals(""))){
+            }else if(!(title.equals(""))){
                 Filme filme = new Filme(title, year, rating, 0);
                 this.topPopular.put(title, filme);
             }
