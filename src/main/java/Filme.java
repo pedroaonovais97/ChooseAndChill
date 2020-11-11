@@ -1,14 +1,18 @@
+import java.util.List;
+
 public class Filme {
     String titulo;
     int ano;
     String rating;
     int nruser;
+    List<Ator> atores;
 
-    public Filme(String titulo, int ano, String rating, int nruser) {
+    public Filme(String titulo, int ano, String rating, int nruser, List<Ator> atores) {
         this.titulo = titulo;
         this.ano = ano;
         this.rating = rating;
         this.nruser = nruser;
+        this.atores = atores;
     }
 
     public String getTitulo() {
@@ -43,6 +47,14 @@ public class Filme {
         this.nruser = nruser;
     }
 
+    public List<Ator> getAtores() {
+        return atores;
+    }
+
+    public void setAtores(List<Ator> atores) {
+        this.atores = atores;
+    }
+
     @Override
     public String toString() {
         return "Filme{" +
@@ -50,6 +62,7 @@ public class Filme {
                 ", ano=" + ano +
                 ", rating='" + rating + '\'' +
                 ", nruser=" + nruser +
+                ", atores=" + atores +
                 '}';
     }
 }
