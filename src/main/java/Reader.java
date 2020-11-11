@@ -78,15 +78,15 @@ public class Reader {
                 Filme filme = new Filme(title, o, rating, i);
                 this.topPopular.put(title, filme);
             }else if(!(title.equals(""))){
-                String[] parts1 = year.split("  ");
-                System.out.println(parts1[0]);
-                if(!(parts1[0].equals(" 16"))) {
+                String[] parts1 = year.split(" ");
+                if(!(parts1[0].equals(""))){
                     int o = Integer.parseInt(parts1[0]);
                     Filme filme = new Filme(title, o, rating, 0);
                     this.topPopular.put(title, filme);
                 }else{
-                    String[] parts2 = year.split(" ");
-                    int o = Integer.parseInt(parts2[1]);
+                    int o = Integer.parseInt(parts1[1]);
+                    if(o < 1800)
+                        o = 0;
                     Filme filme = new Filme(title, o, rating, 0);
                     this.topPopular.put(title, filme);
                 }
