@@ -57,7 +57,7 @@ public class Reader {
             if(!(user.equals(""))) {
                 String[] parts = user.split(" ");
                 int i = Integer.parseInt(parts[3].replace(",",""));
-                Filme filme = new Filme(title, year, rating, i);
+                Filme filme = new Filme(title, Integer.parseInt(year), rating, i);
                 this.top250.put(title, filme);
             }
         }
@@ -73,13 +73,23 @@ public class Reader {
             if(!(user.equals(""))) {
                 String[] parts = user.split(" ");
                 int i = Integer.parseInt(parts[3].replace(",",""));
-                String[] parts1 = new String[2];
-                parts1 = year.split(" ");
-                Filme filme = new Filme(title, parts1[0], rating, i);
+                String[] parts1 = year.split(" ");
+                int o = Integer.parseInt(parts1[0]);
+                Filme filme = new Filme(title, o, rating, i);
                 this.topPopular.put(title, filme);
             }else if(!(title.equals(""))){
-                Filme filme = new Filme(title, year, rating, 0);
-                this.topPopular.put(title, filme);
+                String[] parts1 = year.split("  ");
+                System.out.println(parts1[0]);
+                if(!(parts1[0].equals(" 16"))) {
+                    int o = Integer.parseInt(parts1[0]);
+                    Filme filme = new Filme(title, o, rating, 0);
+                    this.topPopular.put(title, filme);
+                }else{
+                    String[] parts2 = year.split(" ");
+                    int o = Integer.parseInt(parts2[1]);
+                    Filme filme = new Filme(title, o, rating, 0);
+                    this.topPopular.put(title, filme);
+                }
             }
         }
     }

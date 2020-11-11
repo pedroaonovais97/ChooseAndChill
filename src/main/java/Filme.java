@@ -1,10 +1,10 @@
 public class Filme {
     String titulo;
-    String ano;
+    int ano;
     String rating;
     int nruser;
 
-    public Filme(String titulo, String ano, String rating, int nruser) {
+    public Filme(String titulo, int ano, String rating, int nruser) {
         this.titulo = titulo;
         this.ano = ano;
         this.rating = rating;
@@ -19,11 +19,11 @@ public class Filme {
         this.titulo = titulo;
     }
 
-    public String getAno() {
+    public int getAno() {
         return ano;
     }
 
-    public void setAno(String ano) {
+    public void setAno(int ano) {
         this.ano = ano;
     }
 
@@ -47,7 +47,7 @@ public class Filme {
     public String toString() {
         return "Filme{" +
                 "titulo='" + titulo + '\'' +
-                ", ano='" + ano + '\'' +
+                ", ano=" + ano +
                 ", rating='" + rating + '\'' +
                 ", nruser=" + nruser +
                 '}';
