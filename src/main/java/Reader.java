@@ -1,6 +1,7 @@
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -60,21 +61,44 @@ public class Reader {
             String novolink = row.select(".titleColumn a").attr("href");
 
             try{
+
                 Document atorlink = Jsoup.connect("http://www.imdb.com" + novolink).get();
-                int i = 0;
-                for(Element tag : atorlink.select("div.credit_summary_item")){
+                int countporpagina = 0;
+                List<String> atores = new ArrayList<String>();
+                List<String> diretores = new ArrayList<String>();
+                List<String> escritores = new ArrayList<String>();
 
-                    String desformatado = tag.select("a").text();
-                    /*
-                    String[] partesdesformatado = desformatado.split("\\n");
+                for(Element t : atorlink.select("div.credit_summary_item")){
 
-                    for(int i = 0; i < partesdesformatado.length; i++)
-                        System.out.println("Diretor: " + partesdesformatado[0] + '\n' +
-                                            "Escritor: " + partesdesformatado[1] + '\n' +
-                                            "Atores: " + partesdesformatado[2] + '\n');*/
-                    System.out.println(desformatado + i);
-                    i++;
+                    int countportabela = 0;
+                    Elements dir = t.select("a");
+
+                    for(Element op : dir){
+                        //System.out.println(op.text() + countportabela + countporpagina);
+                        switch(countporpagina){
+                            case 0:
+                                if(countportabela == 0){
+                                    diretores.add(op.text());
+                                    countportabela--;
+                                }
+                            case 1:
+                                if(countportabela == 0 && !op.text().contains("more")){
+                                    escritores.add(op.text());
+                                    countportabela--;
+                                }
+                            case 2:
+                                if(countportabela == 0 && !op.text().contains("more") && !op.text().contains("crew")){
+                                    atores.add(op.text());
+                                    countportabela--;
+                                }
+                        }
+                        countportabela++;
+                    }
+                    countporpagina++;
                 }
+                System.out.println(diretores);
+                System.out.println(escritores);
+                System.out.println(atores);
             }catch(IOException e){
                 e.printStackTrace();
             }
@@ -88,6 +112,7 @@ public class Reader {
                 Filme filme = new Filme(title, Integer.parseInt(year), rating, i,listaatores);
                 this.top250.put(title, filme);
             }
+            System.out.println("--");
         }
     }
 
