@@ -1,11 +1,12 @@
 import org.jsoup.nodes.Document;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Scraper {
     public static void main(String[] args) throws Exception{
-
+        long startTime = new Date().getTime();
         Reader leitor = new Reader();
 
         Map<String,Filme> filmestop250 = new HashMap<String, Filme>();
@@ -17,13 +18,17 @@ public class Scraper {
         leitor.setDocument(document1);
         leitor.setTop250(filmestop250);
         leitor.lerdocumentotop250();
-
+/*
         int count = 1;
 
         for(Map.Entry<String,Filme> e : filmestop250.entrySet()){
+            System.out.println("-----");
             System.out.println(count + " -> " +e.getValue().toString());
             count++;
         }
+        long stopTime = new Date().getTime();
+        System.out.println(stopTime - startTime);
+
 
         leitor.setDocument(document2);
         leitor.setTopPopular(filmestoppopular);
@@ -43,6 +48,6 @@ public class Scraper {
         for(Map.Entry<String,Filme> e : filmestoppopular.entrySet()){
             if(e.getValue().getNruser() == 0)
                 System.out.println(e.getValue().toString());
-        }
+        }*/
     }
 }

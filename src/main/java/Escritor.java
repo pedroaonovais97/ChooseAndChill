@@ -1,22 +1,18 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ator {
+public class Escritor {
     private String nome;
     private List<String> filmes;
 
-    public  Ator(){
+    public Escritor(){
         this.nome = "";
         this.filmes = new ArrayList<String>();
     }
 
-    public Ator(String nome, List<String> filmes) {
+    public Escritor(String nome, List<String> filmes) {
         this.nome = nome;
         this.filmes = filmes;
-    }
-
-    public Ator(String nome) {
-        this.nome = nome;
     }
 
     public String getNome() {
@@ -41,7 +37,7 @@ public class Ator {
 
     @Override
     public String toString() {
-        return "Ator{" +
+        return "Escritor{" +
                 "nome='" + nome + '\'' +
                 ", filmes=" + filmes +
                 '}';

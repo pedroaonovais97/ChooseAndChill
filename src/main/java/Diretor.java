@@ -1,21 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ator {
+public class Diretor {
     private String nome;
     private List<String> filmes;
 
-    public  Ator(){
+    public  Diretor(){
         this.nome = "";
         this.filmes = new ArrayList<String>();
     }
 
-    public Ator(String nome, List<String> filmes) {
+    public Diretor(String nome, List<String> filmes) {
         this.nome = nome;
         this.filmes = filmes;
     }
 
-    public Ator(String nome) {
+    public Diretor(String nome) {
         this.nome = nome;
     }
 
@@ -27,23 +27,17 @@ public class Ator {
         this.nome = nome;
     }
 
-    public List<String> getFilmes() {
-        return filmes;
-    }
-
-    public void setFilmes(List<String> filmes) {
-        this.filmes = filmes;
-    }
-
     public void addFilme(String a){
         this.filmes.add(a);
     }
 
     @Override
     public String toString() {
-        return "Ator{" +
+        return "Diretor{" +
                 "nome='" + nome + '\'' +
                 ", filmes=" + filmes +
                 '}';
     }
 }
+
+

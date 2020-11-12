@@ -59,36 +59,49 @@ public class Reader {
             String year = row.select(".SecondaryInfo").text().replaceAll("[()]","");
             String user = row.select("strong").attr("title");
             String novolink = row.select(".titleColumn a").attr("href");
+            List<Ator> atores = new ArrayList<Ator>();
+            List<Diretor> diretores = new ArrayList<Diretor>();
+            List<Escritor> escritores = new ArrayList<Escritor>();
+            Filme filme = new Filme();
+
+            if(!(user.equals(""))) {
+                String[] parts = user.split(" ");
+                int i = Integer.parseInt(parts[3].replace(",",""));
+                filme.setTitulo(title);
+                filme.setAno(Integer.parseInt(year));
+                filme.setRating(Double.parseDouble(rating));
+            }
 
             try{
 
                 Document atorlink = Jsoup.connect("http://www.imdb.com" + novolink).get();
                 int countporpagina = 0;
-                List<String> atores = new ArrayList<String>();
-                List<String> diretores = new ArrayList<String>();
-                List<String> escritores = new ArrayList<String>();
 
                 for(Element t : atorlink.select("div.credit_summary_item")){
 
                     int countportabela = 0;
                     Elements dir = t.select("a");
-
                     for(Element op : dir){
-                        //System.out.println(op.text() + countportabela + countporpagina);
                         switch(countporpagina){
                             case 0:
                                 if(countportabela == 0){
-                                    diretores.add(op.text());
+                                    Diretor diretor1 = new Diretor();
+                                    diretor1.setNome(op.text());
+                                    diretores.add(diretor1);
                                     countportabela--;
                                 }
                             case 1:
                                 if(countportabela == 0 && !op.text().contains("more")){
-                                    escritores.add(op.text());
+                                    Escritor escritor1 = new Escritor();
+                                    escritor1.setNome(op.text());
+                                    escritores.add(escritor1);
                                     countportabela--;
                                 }
                             case 2:
                                 if(countportabela == 0 && !op.text().contains("more") && !op.text().contains("crew")){
-                                    atores.add(op.text());
+                                    Ator ator1 = new Ator();
+                                    ator1.setNome(op.text());
+                                    atores.add(ator1);
                                     countportabela--;
                                 }
                         }
@@ -96,26 +109,27 @@ public class Reader {
                     }
                     countporpagina++;
                 }
-                System.out.println(diretores);
-                System.out.println(escritores);
-                System.out.println(atores);
+
             }catch(IOException e){
                 e.printStackTrace();
             }
-
-            if(!(user.equals(""))) {
-                String[] parts = user.split(" ");
-                int i = Integer.parseInt(parts[3].replace(",",""));
-                Ator a = new Ator("Pedro");
-                List<Ator> listaatores = new ArrayList<Ator>();
-                listaatores.add(a);
-                Filme filme = new Filme(title, Integer.parseInt(year), rating, i,listaatores);
-                this.top250.put(title, filme);
+            for(Ator a : atores){
+                a.addFilme(filme.getTitulo());
             }
-            System.out.println("--");
+            for(Diretor a : diretores)
+                a.addFilme(filme.getTitulo());
+            for(Escritor a : escritores)
+                a.addFilme(filme.getTitulo());
+
+            filme.setAtores(atores);
+            filme.setDiretores(diretores);
+            filme.setEscritores(escritores);
+
+            this.top250.put(title, filme);
         }
     }
 
+/*
     public void lerdocumentotoppopular() {
 
         for (Element row : this.document.select("table.chart.full-width tr")) {
@@ -155,6 +169,6 @@ public class Reader {
                 }
             }
         }
-    }
+    }*/
 
 }
