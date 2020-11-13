@@ -6,28 +6,23 @@ public class Filme {
     private int ano;
     private Double rating;
     private int nruser;
+    private List<String> genero;
     private List<Ator> atores;
     private List<Escritor> escritores;
     private List<Diretor> diretores;
 
-    public Filme(){
-        this.titulo = "";
-        this.ano = 0;
-        this.rating = 0.0;
-        this.nruser = 0;
-        this.atores = new ArrayList<Ator>();
-        this.escritores = new ArrayList<Escritor>();
-        this.diretores = new ArrayList<Diretor>();
-    }
-
-    public Filme(String titulo, int ano, Double rating, int nruser, List<Ator> atores, List<Escritor> escritores, List<Diretor> diretores) {
+    public Filme(String titulo, int ano, Double rating, int nruser, List<String> genero, List<Ator> atores, List<Escritor> escritores, List<Diretor> diretores) {
         this.titulo = titulo;
         this.ano = ano;
         this.rating = rating;
         this.nruser = nruser;
+        this.genero = genero;
         this.atores = atores;
         this.escritores = escritores;
         this.diretores = diretores;
+    }
+
+    public Filme() {
     }
 
     public String getTitulo() {
@@ -86,6 +81,14 @@ public class Filme {
         this.diretores = diretores;
     }
 
+    public List<String> getGenero() {
+        return genero;
+    }
+
+    public void setGenero(List<String> genero) {
+        this.genero = genero;
+    }
+
     @Override
     public String toString() {
         return "Filme{" +
@@ -93,6 +96,7 @@ public class Filme {
                 ", ano=" + ano +
                 ", rating=" + rating +
                 ", nruser=" + nruser +
+                ", genero=" + genero +
                 ", atores=" + atores +
                 ", escritores=" + escritores +
                 ", diretores=" + diretores +

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Reader {
 
@@ -50,6 +51,10 @@ public class Reader {
         return Jsoup.connect("http://www.imdb.com/chart/moviemeter").get();
     }
 
+    public boolean stringContainsNumber( String s ) {
+        return Pattern.compile( "[0-9]" ).matcher( s ).find();
+    }
+
     public void lerdocumentotop250() {
 
         for (Element row : this.document.select("table.chart.full-width tr")) {
@@ -62,6 +67,7 @@ public class Reader {
             List<Ator> atores = new ArrayList<Ator>();
             List<Diretor> diretores = new ArrayList<Diretor>();
             List<Escritor> escritores = new ArrayList<Escritor>();
+            List<String> generos = new ArrayList<String>();
             Filme filme = new Filme();
 
             if(!(user.equals(""))) {
@@ -70,6 +76,7 @@ public class Reader {
                 filme.setTitulo(title);
                 filme.setAno(Integer.parseInt(year));
                 filme.setRating(Double.parseDouble(rating));
+                filme.setNruser(i);
             }
 
             try{
@@ -77,7 +84,17 @@ public class Reader {
                 Document atorlink = Jsoup.connect("http://www.imdb.com" + novolink).get();
                 int countporpagina = 0;
 
+                String genero = atorlink.select("div.subtext").select("a").text();
+                String generosplit[] = genero.split(" ");
+
+                for(int i = 0; i< generosplit.length && !(stringContainsNumber(generosplit[i])) ; i++){
+                    generos.add(generosplit[i]);
+                }
+
+                filme.setGenero(generos);
+
                 for(Element t : atorlink.select("div.credit_summary_item")){
+
 
                     int countportabela = 0;
                     Elements dir = t.select("a");
@@ -125,7 +142,10 @@ public class Reader {
             filme.setDiretores(diretores);
             filme.setEscritores(escritores);
 
-            this.top250.put(title, filme);
+            if(!(title.equals(""))){
+                this.top250.put(title, filme);
+                System.out.println(filme.toString());
+            }
         }
     }
 
