@@ -1,17 +1,19 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class Filme {
+public class Filme implements Serializable {
     private String titulo;
     private int ano;
     private Double rating;
     private int nruser;
     private List<String> genero;
-    private List<Ator> atores;
-    private List<Escritor> escritores;
-    private List<Diretor> diretores;
+    private List<String> atores;
+    private List<String> escritores;
+    private List<String> diretores;
 
-    public Filme(String titulo, int ano, Double rating, int nruser, List<String> genero, List<Ator> atores, List<Escritor> escritores, List<Diretor> diretores) {
+    public Filme(String titulo, int ano, Double rating, int nruser, List<String> genero, List<String> atores, List<String> escritores, List<String> diretores) {
         this.titulo = titulo;
         this.ano = ano;
         this.rating = rating;
@@ -57,36 +59,68 @@ public class Filme {
         this.nruser = nruser;
     }
 
-    public List<Ator> getAtores() {
-        return atores;
-    }
-
-    public void setAtores(List<Ator> atores) {
-        this.atores = atores;
-    }
-
-    public List<Escritor> getEscritores() {
-        return escritores;
-    }
-
-    public void setEscritores(List<Escritor> escritores) {
-        this.escritores = escritores;
-    }
-
-    public List<Diretor> getDiretores() {
-        return diretores;
-    }
-
-    public void setDiretores(List<Diretor> diretores) {
-        this.diretores = diretores;
-    }
-
     public List<String> getGenero() {
         return genero;
     }
 
+    public List<String> getAtores() {
+        return atores;
+    }
+
+    public void setAtores(List<String> atores) {
+        this.atores = atores;
+    }
+
+    public List<String> getEscritores() {
+        return escritores;
+    }
+
+    public void setEscritores(List<String> escritores) {
+        this.escritores = escritores;
+    }
+
+    public List<String> getDiretores() {
+        return diretores;
+    }
+
+    public void setDiretores(List<String> diretores) {
+        this.diretores = diretores;
+    }
+
     public void setGenero(List<String> genero) {
         this.genero = genero;
+    }
+
+    public boolean containsGenero(String a){
+        if(this.genero.contains(a)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean containsAtor(String a){
+        if(this.atores.contains(a)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean containsDiretor(String a){
+        if(this.diretores.contains(a)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean containsEscritor(String a){
+        if(this.escritores.contains(a)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override

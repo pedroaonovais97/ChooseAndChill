@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Diretor {
+public class Diretor implements Serializable {
     private String nome;
     private List<String> filmes;
 
@@ -28,7 +29,8 @@ public class Diretor {
     }
 
     public void addFilme(String a){
-        this.filmes.add(a);
+        if(!(this.filmes.contains(a)))
+            this.filmes.add(a);
     }
 
     @Override

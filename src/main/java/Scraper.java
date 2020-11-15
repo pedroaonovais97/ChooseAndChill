@@ -1,33 +1,60 @@
 import org.jsoup.nodes.Document;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Scraper {
-    public static void main(String[] args) throws Exception{
-        long startTime = new Date().getTime();
-        Reader leitor = new Reader();
 
-        Map<String,Filme> filmestop250 = new HashMap<String, Filme>();
-        Map<String,Filme> filmestoppopular = new HashMap<String, Filme>();
+    private StateManager curState;
+    private Utilizador utilizador;
 
-        Document document1 = leitor.getDocumentoTop250();
-        Document document2 = leitor.getDocumentoTopPopular();
 
-        leitor.setDocument(document1);
-        leitor.setTop250(filmestop250);
-        leitor.lerdocumentotop250();
-/*
+    public static void main(String[] args) {
+        Scraper app = new Scraper();
+        //app.criar();
+
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Estado.dat"));
+            app.curState = (StateManager)ois.readObject();
+            ois.close();
+            for(Map.Entry<String,Filme> a : app.curState.getTop250().entrySet())
+                System.out.println(a);
+        }catch (Exception e) {
+            System.out.println("Não está carregado");
+        }
+    }
+
+    private Scraper() {
+    }
+
+    public void criar() {
+        try {
+            Reader readlogs = new Reader();
+            this.curState = new StateManager();
+            readlogs.lerdocumentotop250(this.curState);
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Estado.dat"));
+            oos.writeObject(this.curState);
+            oos.flush();
+            oos.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+        /*
         int count = 1;
 
-        for(Map.Entry<String,Filme> e : filmestop250.entrySet()){
+        for(Map.Entry<String,Filme> e : leitor.getTop250().entrySet()){
             System.out.println("-----");
             System.out.println(count + " -> " +e.getValue().toString());
             count++;
         }
-        long stopTime = new Date().getTime();
-        System.out.println(stopTime - startTime);
 
 
         leitor.setDocument(document2);
@@ -49,5 +76,4 @@ public class Scraper {
             if(e.getValue().getNruser() == 0)
                 System.out.println(e.getValue().toString());
         }*/
-    }
 }
