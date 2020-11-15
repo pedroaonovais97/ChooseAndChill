@@ -72,6 +72,7 @@ public class Reader {
                                     if (countportabela == 0) {
                                         if (state.getDiretores().containsKey(op.text())) {
                                             state.getDiretores().get((op.text())).addFilme(filme.getTitulo());
+                                            diretoresstring.add(op.text());
                                         } else {
                                             Diretor diretor1 = new Diretor();
                                             diretor1.setNome(op.text());
@@ -85,6 +86,7 @@ public class Reader {
                                     if (countportabela == 0 && !op.text().contains("more")) {
                                         if (state.getEscritores().containsKey(op.text())) {
                                             state.getEscritores().get(op.text()).addFilme(filme.getTitulo());
+                                            escritoresstring.add(op.text());
                                         } else {
                                             Escritor escritor1 = new Escritor();
                                             escritor1.setNome(op.text());
@@ -98,6 +100,7 @@ public class Reader {
                                     if (countportabela == 0 && !op.text().contains("more") && !op.text().contains("crew")) {
                                         if (state.getAtores().containsKey(op.text())) {
                                             state.getAtores().get(op.text()).addFilme(filme.getTitulo());
+                                            atoresstring.add(op.text());
                                         } else {
                                             Ator ator1 = new Ator();
                                             ator1.setNome(op.text());
