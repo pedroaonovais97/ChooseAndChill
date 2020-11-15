@@ -1,7 +1,5 @@
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class StateManager implements Serializable {
 
@@ -117,6 +115,27 @@ public class StateManager implements Serializable {
 
     public void addUtilizador(Utilizador u){
         this.utilizadores.put(u.getUsername(),u);
+    }
+
+    public Filme pickRandom(){
+        List<Filme> filmes = new ArrayList<Filme>();
+        for(Map.Entry<String,Filme> e : totalfilmes.entrySet()){
+            filmes.add(e.getValue());
+        }
+
+        Collections.shuffle(filmes);
+        return (filmes.get(6));
+    }
+
+    public Filme pickRandombyGenre(String a){
+        List<Filme> filmes = new ArrayList<Filme>();
+        for(Map.Entry<String,Filme> e : totalfilmes.entrySet()){
+            if(e.getValue().getGenero().contains(a))
+                filmes.add(e.getValue());
+        }
+
+        Collections.shuffle(filmes);
+        return (filmes.get(6));
     }
 
     @Override

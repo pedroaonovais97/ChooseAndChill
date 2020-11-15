@@ -24,9 +24,11 @@ public class Scraper {
             ois.close();
             for(Map.Entry<String,Filme> a : app.curState.getTop250().entrySet())
                 System.out.println(a);
+            //System.out.println(app.curState.pickRandombyGenre("Action"));
         }catch (Exception e) {
             System.out.println("Não está carregado");
         }
+
     }
 
     private Scraper() {
