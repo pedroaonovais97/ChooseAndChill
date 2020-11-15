@@ -22,9 +22,10 @@ public class Scraper {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Estado.dat"));
             app.curState = (StateManager)ois.readObject();
             ois.close();
-            //for(Map.Entry<String,Filme> a : app.curState.getTop250().entrySet())
-            //    System.out.println(a);
-            System.out.println(app.curState.pickRandombyGenre("Action"));
+            for(Map.Entry<String,Ator> a : app.curState.getAtores().entrySet())
+                System.out.println(a);
+            //System.out.println(app.curState.pickRandombyGenre("Action"));
+
         }catch (Exception e) {
             System.out.println("Não está carregado");
         }

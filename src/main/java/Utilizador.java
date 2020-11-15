@@ -86,59 +86,109 @@ public class Utilizador {
         this.filmes.put(a.getTitulo(),a);
     }
 
-    public void atualizaInfo(){
-        for(Map.Entry<String,Filme> a : this.filmes.entrySet()){
-            for(String at : a.getValue().getAtores()){
-                if(this.atores.containsKey(at)){
+    public void removeFilme(String a){
+        this.filmes.remove(a);
+    }
+
+    public void atualizaInfo() {
+        for (Map.Entry<String, Filme> a : this.filmes.entrySet()) {
+            for (String at : a.getValue().getAtores()) {
+                if (this.atores.containsKey(at)) {
                     int i = this.atores.get(at);
                     i++;
-                    this.atores.put(at,i);
-                }
-                else{
-                    this.atores.put(at,1);
+                    this.atores.put(at, i);
+                } else {
+                    this.atores.put(at, 1);
                 }
             }
         }
 
-        for(Map.Entry<String,Filme> a : this.filmes.entrySet()){
-            for(String at : a.getValue().getDiretores()){
-                if(this.diretores.containsKey(at)){
+        for (Map.Entry<String, Filme> a : this.filmes.entrySet()) {
+            for (String at : a.getValue().getDiretores()) {
+                if (this.diretores.containsKey(at)) {
                     int i = this.diretores.get(at);
                     i++;
-                    this.diretores.put(at,i);
-                }
-                else{
-                    this.diretores.put(at,1);
+                    this.diretores.put(at, i);
+                } else {
+                    this.diretores.put(at, 1);
                 }
             }
         }
 
-        for(Map.Entry<String,Filme> a : this.filmes.entrySet()){
-            for(String at : a.getValue().getEscritores()){
-                if(this.escritores.containsKey(at)){
+        for (Map.Entry<String, Filme> a : this.filmes.entrySet()) {
+            for (String at : a.getValue().getEscritores()) {
+                if (this.escritores.containsKey(at)) {
                     int i = this.escritores.get(at);
                     i++;
-                    this.escritores.put(at,i);
-                }
-                else{
-                    this.escritores.put(at,1);
+                    this.escritores.put(at, i);
+                } else {
+                    this.escritores.put(at, 1);
                 }
             }
         }
 
-        for(Map.Entry<String,Filme> a : this.filmes.entrySet()){
-            for(String at : a.getValue().getGenero()){
-                if(this.generos.containsKey(at)){
+        for (Map.Entry<String, Filme> a : this.filmes.entrySet()) {
+            for (String at : a.getValue().getGenero()) {
+                if (this.generos.containsKey(at)) {
                     int i = this.generos.get(at);
                     i++;
-                    this.generos.put(at,i);
-                }
-                else{
-                    this.generos.put(at,1);
+                    this.generos.put(at, i);
+                } else {
+                    this.generos.put(at, 1);
                 }
             }
         }
     }
+
+    public String atorFavorito(){
+        int count = 0;
+        String ator = new String();
+        for(Map.Entry<String,Integer> e : this.atores.entrySet()){
+            if(e.getValue() > count){
+                count = e.getValue();
+                ator = String.valueOf(e.getKey());
+            }
+        }
+        return ator;
+    }
+
+    public String generoFavorito(){
+        int count = 0;
+        String genero = new String();
+        for(Map.Entry<String,Integer> e : this.generos.entrySet()){
+            if(e.getValue() > count){
+                count = e.getValue();
+                genero = String.valueOf(e.getKey());
+            }
+        }
+        return genero;
+    }
+
+    public String escritorFavorito(){
+        int count = 0;
+        String escritor = new String();
+        for(Map.Entry<String,Integer> e : this.escritores.entrySet()){
+            if(e.getValue() > count){
+                count = e.getValue();
+                escritor = String.valueOf(e.getKey());
+            }
+        }
+        return escritor;
+    }
+
+    public String diretorFavorito(){
+        int count = 0;
+        String diretor = new String();
+        for(Map.Entry<String,Integer> e : this.diretores.entrySet()){
+            if(e.getValue() > count){
+                count = e.getValue();
+                diretor = String.valueOf(e.getKey());
+            }
+        }
+        return diretor;
+    }
+
+
 
 
     @Override

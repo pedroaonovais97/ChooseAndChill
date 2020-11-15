@@ -10,6 +10,7 @@ public class StateManager implements Serializable {
     private Map<String,Diretor> diretores;
     private Map<String,Escritor> escritores;
     private Map<String,Utilizador> utilizadores;
+    private Admin administrador;
 
     public StateManager(){
         this.top250 = new HashMap<String, Filme>();
@@ -19,6 +20,7 @@ public class StateManager implements Serializable {
         this.diretores = new HashMap<String, Diretor>();
         this.escritores = new HashMap<String, Escritor>();
         this.utilizadores = new HashMap<String, Utilizador>();
+        this.administrador = new Admin();
     }
 
     public StateManager(Map<String, Filme> top250, Map<String, Filme> topPopular, Map<String, Ator> atores, Map<String,
@@ -137,6 +139,54 @@ public class StateManager implements Serializable {
         Collections.shuffle(filmes);
         return (filmes.get(6));
     }
+
+    public Filme pickRandombyAtor(String a){
+        List<Filme> filmes = new ArrayList<Filme>();
+        for(Map.Entry<String,Filme> e : totalfilmes.entrySet()){
+            if(e.getValue().getAtores().contains(a))
+                filmes.add(e.getValue());
+        }
+
+        Collections.shuffle(filmes);
+        return (filmes.get(6));
+    }
+
+    public Filme pickRandombyAno(int a){
+        List<Filme> filmes = new ArrayList<Filme>();
+        for(Map.Entry<String,Filme> e : totalfilmes.entrySet()){
+            if(e.getValue().getAno() == a)
+                filmes.add(e.getValue());
+        }
+
+        Collections.shuffle(filmes);
+        return (filmes.get(6));
+    }
+
+    public Filme pickRandombyAnoSuperior(int a){
+        List<Filme> filmes = new ArrayList<Filme>();
+        for(Map.Entry<String,Filme> e : totalfilmes.entrySet()){
+            if(e.getValue().getAno() >= a){
+                filmes.add(e.getValue());
+            }
+        }
+
+        Collections.shuffle(filmes);
+        return (filmes.get(6));
+    }
+
+    public Filme pickRandombyAnoInferior(int a){
+        List<Filme> filmes = new ArrayList<Filme>();
+        for(Map.Entry<String,Filme> e : totalfilmes.entrySet()){
+            if(e.getValue().getAno() <= a){
+                filmes.add(e.getValue());
+            }
+        }
+
+        Collections.shuffle(filmes);
+        return (filmes.get(6));
+    }
+
+
 
     @Override
     public String toString() {
