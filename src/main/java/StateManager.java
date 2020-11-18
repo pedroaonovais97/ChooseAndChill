@@ -185,8 +185,18 @@ public class StateManager implements Serializable {
         Collections.shuffle(filmes);
         return (filmes.get(6));
     }
+/*
+    public Utilizador login(String a,String b){
+        Utilizador aux = this.utilizadores.get(a);
+        if(aux.validaCredenciais(a,b))
+            return aux;
+        else
+            return null;
+    }*/
 
-
+    public Admin getAdministrador() {
+        return administrador;
+    }
 
     @Override
     public String toString() {

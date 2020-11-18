@@ -1,17 +1,15 @@
-import org.jsoup.nodes.Document;
-
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Scraper {
 
     private StateManager curState;
     private Utilizador utilizador;
+    private Admin administrador;
+    private Menu appMenu;
+    private static int count = 0;
 
 
     public static void main(String[] args) {
@@ -29,12 +27,12 @@ public class Scraper {
         }catch (Exception e) {
             System.out.println("Não está carregado");
         }
-
     }
 
     private Scraper() {
     }
 
+    /*
     public void criar() {
         try {
             Reader readlogs = new Reader();
@@ -47,36 +45,71 @@ public class Scraper {
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }*/
+/*
+    public void run(boolean loggedIn){
+        do{
+            if(!loggedIn)
+                loggedIn = this.
+        }
+    }*/
+
+    public boolean menuActions(){
+        boolean login = false;
+
+        this.appMenu.mMenu();
+        switch (this.appMenu.getOpt()){
+            case 1:
+                Scanner input = new Scanner(System.in);
+                System.out.println("Email: ");
+                String aux = input.nextLine();
+                if(aux.equals("Pedro Novais"))
+                    login = loginA(aux);
+                else
+                    login = loginU(aux);
+                if(login = true)
+                    System.out.println("Login aceite");
+                else
+                    System.out.println("Login não aceite");
+                break;
+            case 2:
+
+
+        }
     }
 
+    public boolean loginU(String a){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Password: ");
+        String password = input.nextLine();
 
-        /*
-        int count = 1;
+        this.utilizador = this.curState.getUtilizadores().get(a);
+        return (this.utilizador.validaCredenciais(a,password));
+    }
 
-        for(Map.Entry<String,Filme> e : leitor.getTop250().entrySet()){
-            System.out.println("-----");
-            System.out.println(count + " -> " +e.getValue().toString());
-            count++;
-        }
+    public boolean loginA(String a){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Password: ");
+        String password = input.nextLine();
 
+        this.administrador = this.curState.getAdministrador();
+        return(administrador.validaCredenciais(a,password));
+    }
 
-        leitor.setDocument(document2);
-        leitor.setTopPopular(filmestoppopular);
-        leitor.lerdocumentotoppopular();
+    public void register(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Email: ");
+        String email = input.nextLine();
 
-        System.out.println("\n----------------------------------------------\n");
+        System.out.println("Password: ");
+        String password = input.nextLine();
 
-        int count1 = 1;
+        Utilizador u = new Utilizador();
+        u.setUsername(email);
+        u.setPassword(password);
 
-        for(Map.Entry<String,Filme> e : filmestoppopular.entrySet()){
-            System.out.println(count1 + " -> " + e.getValue().toString());
-            count1++;
-        }
+        
 
-        System.out.println("\n----------------------------------------------\n");
-
-        for(Map.Entry<String,Filme> e : filmestoppopular.entrySet()){
-            if(e.getValue().getNruser() == 0)
-                System.out.println(e.getValue().toString());
-        }*/
+        this.curState.addUtilizador(u);
+    }
 }

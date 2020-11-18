@@ -188,7 +188,12 @@ public class Utilizador {
         return diretor;
     }
 
-
+    public boolean validaCredenciais(String user, String pass){
+        if(this.username.equals(user) && this.password.equals(pass))
+            return true;
+        else
+            return false;
+    }
 
 
     @Override
