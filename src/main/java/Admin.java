@@ -1,14 +1,15 @@
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Admin{
+public class Admin implements Serializable {
 
     private String username;
     private String password;
     private Map<String,Utilizador> utilizadores;
 
     public Admin(){
-        this.username = "Pedro Novais";
+        this.username = "Pedro Novais Admin";
         this.password = "pedroa782";
         this.utilizadores = new HashMap<String, Utilizador>();
     }

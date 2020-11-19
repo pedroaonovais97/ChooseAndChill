@@ -1,7 +1,9 @@
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Utilizador {
+public class Utilizador implements Serializable {
 
     private String username;
     private String password;
@@ -24,6 +26,13 @@ public class Utilizador {
     }
 
     public Utilizador(){
+        username = "";
+        password = "";
+        filmes = new HashMap<String, Filme>();
+        atores = new HashMap<String, Integer>();
+        escritores = new HashMap<String, Integer>();
+        diretores = new HashMap<String, Integer>();
+        generos = new HashMap<String, Integer>();
     }
 
     public Map<String, Integer> getGeneros() {
@@ -91,9 +100,9 @@ public class Utilizador {
     }
 
     public void atualizaInfo() {
-        for (Map.Entry<String, Filme> a : this.filmes.entrySet()) {
+        for (Map.Entry<String, Filme> a : filmes.entrySet()) {
             for (String at : a.getValue().getAtores()) {
-                if (this.atores.containsKey(at)) {
+                if (atores.containsKey(at)) {
                     int i = this.atores.get(at);
                     i++;
                     this.atores.put(at, i);
@@ -103,26 +112,26 @@ public class Utilizador {
             }
         }
 
-        for (Map.Entry<String, Filme> a : this.filmes.entrySet()) {
+        for (Map.Entry<String, Filme> a : filmes.entrySet()) {
             for (String at : a.getValue().getDiretores()) {
-                if (this.diretores.containsKey(at)) {
-                    int i = this.diretores.get(at);
+                if (diretores.containsKey(at)) {
+                    int i = diretores.get(at);
                     i++;
-                    this.diretores.put(at, i);
+                    diretores.put(at, i);
                 } else {
-                    this.diretores.put(at, 1);
+                    diretores.put(at, 1);
                 }
             }
         }
 
-        for (Map.Entry<String, Filme> a : this.filmes.entrySet()) {
+        for (Map.Entry<String, Filme> a : filmes.entrySet()) {
             for (String at : a.getValue().getEscritores()) {
-                if (this.escritores.containsKey(at)) {
-                    int i = this.escritores.get(at);
+                if (escritores.containsKey(at)) {
+                    int i = escritores.get(at);
                     i++;
-                    this.escritores.put(at, i);
+                    escritores.put(at, i);
                 } else {
-                    this.escritores.put(at, 1);
+                    escritores.put(at, 1);
                 }
             }
         }
@@ -194,7 +203,6 @@ public class Utilizador {
         else
             return false;
     }
-
 
     @Override
     public String toString() {

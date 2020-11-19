@@ -1,3 +1,5 @@
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 
@@ -119,6 +121,12 @@ public class StateManager implements Serializable {
         this.utilizadores.put(u.getUsername(),u);
     }
 
+    public String sugereFilme(Utilizador u){
+        String genero = u.generoFavorito();
+        Filme f = pickRandombyGenre(genero);
+        return f.getTitulo();
+    }
+
     public Filme pickRandom(){
         List<Filme> filmes = new ArrayList<Filme>();
         for(Map.Entry<String,Filme> e : totalfilmes.entrySet()){
@@ -196,6 +204,22 @@ public class StateManager implements Serializable {
 
     public Admin getAdministrador() {
         return administrador;
+    }
+
+    public void display250(){
+        int i = 1;
+        for(Map.Entry<String,Filme> e : this.top250.entrySet()){
+            System.out.println(i + ". -> " + e.getValue().getTitulo());
+            i++;
+        }
+    }
+
+    public void displayPopular(){
+        int i = 1;
+        for(Map.Entry<String,Filme> e : this.topPopular.entrySet()){
+            System.out.println(i + ". -> " + e.getValue().getTitulo());
+            i++;
+        }
     }
 
     @Override
