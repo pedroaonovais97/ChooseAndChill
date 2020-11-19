@@ -1,6 +1,6 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Utilizador implements Serializable {
@@ -149,13 +149,18 @@ public class Utilizador implements Serializable {
         }
     }
 
-    public String atorFavorito(){
+    public ArrayList<String> atorFavorito(){
         int count = 0;
-        String ator = new String();
+        ArrayList<String> ator = new ArrayList<String>();
         for(Map.Entry<String,Integer> e : this.atores.entrySet()){
             if(e.getValue() > count){
                 count = e.getValue();
-                ator = String.valueOf(e.getKey());
+            }
+        }
+
+        for(Map.Entry<String,Integer> e : this.atores.entrySet()){
+            if(e.getValue() == count){
+                ator.add(e.getKey());
             }
         }
         return ator;

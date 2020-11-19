@@ -63,7 +63,6 @@ public class Reader {
 
                     for (Element t : atorlink.select("div.credit_summary_item")) {
 
-
                         int countportabela = 0;
                         Elements dir = t.select("a");
                         for (Element op : dir) {
@@ -73,6 +72,7 @@ public class Reader {
                                         if (state.getDiretores().containsKey(op.text())) {
                                             state.getDiretores().get((op.text())).addFilme(filme.getTitulo());
                                             diretoresstring.add(op.text());
+                                            countportabela--;
                                         } else {
                                             Diretor diretor1 = new Diretor();
                                             diretor1.setNome(op.text());
@@ -87,6 +87,7 @@ public class Reader {
                                         if (state.getEscritores().containsKey(op.text())) {
                                             state.getEscritores().get(op.text()).addFilme(filme.getTitulo());
                                             escritoresstring.add(op.text());
+                                            countportabela--;
                                         } else {
                                             Escritor escritor1 = new Escritor();
                                             escritor1.setNome(op.text());
@@ -101,6 +102,7 @@ public class Reader {
                                         if (state.getAtores().containsKey(op.text())) {
                                             state.getAtores().get(op.text()).addFilme(filme.getTitulo());
                                             atoresstring.add(op.text());
+                                            countportabela--;
                                         } else {
                                             Ator ator1 = new Ator();
                                             ator1.setNome(op.text());

@@ -2,6 +2,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class StateManager implements Serializable {
 
@@ -207,8 +208,16 @@ public class StateManager implements Serializable {
     }
 
     public void display250(){
+        Map<String, Filme> result = this.top250.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
         int i = 1;
-        for(Map.Entry<String,Filme> e : this.top250.entrySet()){
+        for(Map.Entry<String,Filme> e : result.entrySet()){
             System.out.println(i + ". -> " + e.getValue().getTitulo());
             i++;
         }

@@ -47,7 +47,7 @@ public class Scraper {
     }
 
     private Scraper() {
-        String[] mOps = {"Login", "Registar", "Top 250 filmes", "Filmes Populares", "Read Logs", "Testes"};
+        String[] mOps = {"Login", "Registar", "Top 250 filmes", "Filmes Populares","Print"};
         String[] uOps = {"Sugerir Filme","Ator Favorito","Género Favorito","Escritor Favorito","Diretor Favorito","Logout"};
         String[] aOps = {"Atualizar Dados","Apagar Utilizador","Logout"};
         this.curState = new StateManager();
@@ -110,18 +110,12 @@ public class Scraper {
             case 1:
                 Reader readlogs = new Reader();
                 readlogs.lerdocumentotop250(this.curState);
-                save();
                 break;
             case 2:
                 System.out.println("Insira o nome do Utilizador: ");
                 Scanner input = new Scanner(System.in);
                 String nome = input.nextLine();
                 this.curState.getUtilizadores().remove(nome);
-                break;
-            case 3:
-                save();
-                login = false;
-                this.logadoA = false;
                 break;
             case 0:
                 System.out.println("A sair...");
@@ -163,6 +157,11 @@ public class Scraper {
                 break;
             case 4:
                 this.curState.displayPopular();
+                break;
+            case 5:
+                System.out.println(this.curState.getTop250().get("O Padrinho"));
+                System.out.println(this.curState.getTop250().get("O Padrinho: Parte II"));
+                System.out.println(this.curState.getTop250().get("O Cavaleiro das Trevas"));
                 break;
             case 0:
                 save();

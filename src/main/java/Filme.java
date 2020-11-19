@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Filme implements Serializable {
+public class Filme implements Serializable,Comparable<Filme> {
     private String titulo;
     private int ano;
     private Double rating;
@@ -121,6 +121,16 @@ public class Filme implements Serializable {
         }else{
             return false;
         }
+    }
+    @Override
+    public int compareTo(@org.jetbrains.annotations.NotNull Filme filme2){
+        if(this.getRating() > filme2.getRating()) return -1;
+        if(this.getRating() < filme2.getRating()) return 1;
+        else{
+            if(this.getNruser() > filme2.getNruser()) return  -1;
+            if(this.getNruser() < filme2.getNruser()) return  1;
+        }
+        return 0;
     }
 
     @Override
