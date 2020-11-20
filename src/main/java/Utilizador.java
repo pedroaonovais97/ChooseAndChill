@@ -166,37 +166,53 @@ public class Utilizador implements Serializable {
         return ator;
     }
 
-    public String generoFavorito(){
+    public ArrayList<String> generoFavorito(){
         int count = 0;
-        String genero = new String();
+        ArrayList<String> genero = new ArrayList<String>();
         for(Map.Entry<String,Integer> e : this.generos.entrySet()){
             if(e.getValue() > count){
                 count = e.getValue();
-                genero = String.valueOf(e.getKey());
+            }
+        }
+
+        for(Map.Entry<String,Integer> e : this.generos.entrySet()){
+            if(e.getValue() == count){
+                genero.add(e.getKey());
             }
         }
         return genero;
     }
 
-    public String escritorFavorito(){
+    public ArrayList<String> escritorFavorito(){
         int count = 0;
-        String escritor = new String();
+        ArrayList<String> escritor = new ArrayList<String>();
         for(Map.Entry<String,Integer> e : this.escritores.entrySet()){
             if(e.getValue() > count){
                 count = e.getValue();
-                escritor = String.valueOf(e.getKey());
             }
         }
+
+        for(Map.Entry<String,Integer> e : this.escritores.entrySet()){
+            if(e.getValue() == count){
+                escritor.add(e.getKey());
+            }
+        }
+
         return escritor;
     }
 
-    public String diretorFavorito(){
+    public ArrayList<String> diretorFavorito(){
         int count = 0;
-        String diretor = new String();
+        ArrayList<String> diretor = new ArrayList<String>();
         for(Map.Entry<String,Integer> e : this.diretores.entrySet()){
             if(e.getValue() > count){
                 count = e.getValue();
-                diretor = String.valueOf(e.getKey());
+            }
+        }
+
+        for(Map.Entry<String,Integer> e : this.diretores.entrySet()){
+            if(e.getValue() == count){
+                diretor.add(e.getKey());
             }
         }
         return diretor;

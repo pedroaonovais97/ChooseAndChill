@@ -122,10 +122,10 @@ public class StateManager implements Serializable {
         this.utilizadores.put(u.getUsername(),u);
     }
 
-    public String sugereFilme(Utilizador u){
-        String genero = u.generoFavorito();
+    public Filme sugereFilme(Utilizador u){
+        String genero = u.generoFavorito().get(0);
         Filme f = pickRandombyGenre(genero);
-        return f.getTitulo();
+        return f;
     }
 
     public Filme pickRandom(){

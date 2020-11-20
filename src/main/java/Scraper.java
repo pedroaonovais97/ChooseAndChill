@@ -48,7 +48,8 @@ public class Scraper {
 
     private Scraper() {
         String[] mOps = {"Login", "Registar", "Top 250 filmes", "Filmes Populares","Print"};
-        String[] uOps = {"Sugerir Filme","Ator Favorito","Género Favorito","Escritor Favorito","Diretor Favorito","Logout"};
+        String[] uOps = {"Sugerir Filme","Adicionar Filme aos Vistos","Ator Favorito"
+                ,"Género Favorito","Escritor Favorito","Diretor Favorito","Ver Lista de Filmes","Logout"};
         String[] aOps = {"Atualizar Dados","Apagar Utilizador","Logout"};
         this.curState = new StateManager();
         this.utilizador = null;
@@ -78,19 +79,42 @@ public class Scraper {
         this.appMenu.utiMenu();
         switch (this.appMenu.getOpt()){
             case 1:
-                System.out.println(this.curState.sugereFilme(this.utilizador));
+                Filme e = this.curState.sugereFilme(this.utilizador);
+                System.out.println(e.getTitulo());
+                System.out.println("Já viu este filme ?");
+                Scanner input = new Scanner(System.in);
+                System.out.println("1.Sim 2.Não");
+                String nome = "";
+                nome = e.getTitulo();
+                while (input.nextInt() == 1) {
+                    Filme o = this.curState.sugereFilme(this.utilizador);
+                    nome = o.getTitulo();
+                    System.out.println(o.getTitulo());
+                    System.out.println("1.Sim 2.Não");
+                }
+                this.utilizador.addFilme(this.curState.getTop250().get(nome));
                 break;
             case 2:
-                System.out.println(this.utilizador.atorFavorito());
+                Scanner input1 = new Scanner(System.in);
+                System.out.println("Insira o filme que viu: ");
+                Filme ou = this.curState.getTop250().get(input1.nextLine());
+                this.utilizador.addFilme(ou);
                 break;
             case 3:
-                System.out.println(this.utilizador.generoFavorito());
+                System.out.println(this.utilizador.atorFavorito());
                 break;
             case 4:
-                System.out.println(this.utilizador.escritorFavorito());
+                System.out.println(this.utilizador.generoFavorito());
                 break;
             case 5:
+                System.out.println(this.utilizador.escritorFavorito());
+                break;
+            case 6:
                 System.out.println(this.utilizador.diretorFavorito());
+                break;
+            case 7:
+                for(Map.Entry ff : this.utilizador.getFilmes().entrySet())
+                    System.out.println(ff.getKey());
                 break;
             case 0:
                 System.out.println("A sair...");
@@ -207,22 +231,16 @@ public class Scraper {
         String filme3 = input.nextLine();
 
         Filme primeiro = this.curState.getTop250().get(filme1);
-        System.out.println(primeiro.getTitulo());
         Filme segundo = this.curState.getTop250().get(filme2);
-        System.out.println(segundo.getTitulo());
         Filme terceiro = this.curState.getTop250().get(filme3);
-        System.out.println(terceiro.getTitulo());
 
         Map<String,Filme> mapa = new HashMap<String, Filme>();
         mapa.put(filme1,primeiro);
         mapa.put(filme2,segundo);
         mapa.put(filme3,terceiro);
-        System.out.println(mapa);
 
         u.setFilmes(mapa);
-        System.out.println(u.getFilmes());
         u.atualizaInfo();
-        System.out.println(u.getAtores());
 
         this.curState.addUtilizador(u);
     }
