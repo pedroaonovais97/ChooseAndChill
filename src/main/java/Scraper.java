@@ -11,11 +11,9 @@ public class Scraper {
     private StateManager curState;
     private Utilizador utilizador;
     private Admin administrador;
-    private Menu appMenu;
-    private boolean logadoU = false;
-    private boolean logadoA = false;
-    private static int count = 0;
-
+    private final Menu appMenu;
+    private boolean logadoU;
+    private boolean logadoA;
 
     public static void main(String[] args) {
         Scraper app = new Scraper();
@@ -27,8 +25,7 @@ public class Scraper {
         }catch (Exception e) {
             System.out.println("Não está carregado");
         }
-        app.run(false);
-        //app.criar();
+        app.run();
     }
 
     private void criar(){
@@ -48,33 +45,34 @@ public class Scraper {
 
     private Scraper() {
         String[] mOps = {"Login", "Registar", "Top 250 filmes", "Filmes Populares","Print"};
-        String[] uOps = {"Sugerir Filme","Adicionar Filme aos Vistos","Ator Favorito"
+        String[] uOps = {"Sugerir Filme","Adicionar Filme aos Vistos","Remover Filme dos Vistos","Ator Favorito"
                 ,"Género Favorito","Escritor Favorito","Diretor Favorito","Ver Lista de Filmes","Logout"};
-        String[] aOps = {"Atualizar Dados","Apagar Utilizador","Logout"};
+        String[] aOps = {"Atualizar Dados","Apagar Utilizador","Reset Programa","Logout","Ver Lista De Utilizadores"};
         this.curState = new StateManager();
         this.utilizador = null;
         this.administrador = this.curState.getAdministrador();
+        this.logadoA = false;
+        this.logadoU = false;
         this.appMenu = new Menu(uOps,aOps,mOps);
     }
 
-    public void run(boolean loggedIn)
+    public void run()
     {
         do
         {
-            if(!loggedIn)
-                loggedIn = this.menuActions();
+            if(!this.logadoU && !this.logadoA)
+                this.menuActions();
 
-            else if(logadoU){
-                loggedIn = this.userActions();
+            else if(this.logadoU){
+                this.userActions();
             }
-            else if(logadoA){
-                loggedIn = this.adminActions();
+            else {
+                this.adminActions();
             }
         }while(this.appMenu.getOpt() != 0);
     }
 
-    public boolean userActions(){
-        boolean login = true;
+    public void userActions(){
 
         this.appMenu.utiMenu();
         switch (this.appMenu.getOpt()){
@@ -84,7 +82,7 @@ public class Scraper {
                 System.out.println("Já viu este filme ?");
                 Scanner input = new Scanner(System.in);
                 System.out.println("1.Sim 2.Não");
-                String nome = "";
+                String nome;
                 nome = e.getTitulo();
                 while (input.nextInt() == 1) {
                     Filme o = this.curState.sugereFilme(this.utilizador);
@@ -101,33 +99,45 @@ public class Scraper {
                 this.utilizador.addFilme(ou);
                 break;
             case 3:
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Insira o nome do filme que quer remover");
+                String teste = input2.nextLine();
+                if(this.utilizador.getFilmes().containsKey(teste)){
+                    this.utilizador.removeFilme(teste);
+                    System.out.println("Removido");
+                    break;
+                }else{
+                    System.out.println("Filme Não Encontrado");
+                    break;
+                }
+            case 4:
                 System.out.println(this.utilizador.atorFavorito());
                 break;
-            case 4:
+            case 5:
                 System.out.println(this.utilizador.generoFavorito());
                 break;
-            case 5:
+            case 6:
                 System.out.println(this.utilizador.escritorFavorito());
                 break;
-            case 6:
+            case 7:
                 System.out.println(this.utilizador.diretorFavorito());
                 break;
-            case 7:
-                for(Map.Entry ff : this.utilizador.getFilmes().entrySet())
+            case 8:
+                for(Map.Entry<String,Filme> ff : this.utilizador.getFilmes().entrySet())
                     System.out.println(ff.getKey());
+                break;
+            case 9:
+                this.logadoU = false;
+                System.out.println("Logged Out");
                 break;
             case 0:
                 System.out.println("A sair...");
                 save();
-                login = false;
-                this.logadoU = false;
                 break;
         }
-        return login;
     }
 
-    public boolean adminActions(){
-        boolean login = true;
+    public void adminActions(){
 
         this.appMenu.adminMenu();
         switch(this.appMenu.getOpt()){
@@ -141,18 +151,23 @@ public class Scraper {
                 String nome = input.nextLine();
                 this.curState.getUtilizadores().remove(nome);
                 break;
+            case 3:
+                criar();
+            case 4:
+                this.logadoA = false;
+                System.out.println("Logged Out");
+                break;
+            case 5:
+                System.out.println(this.curState.getUtilizadores());
+                break;
             case 0:
                 System.out.println("A sair...");
                 save();
-                login = false;
-                this.logadoA = false;
                 break;
         }
-        return login;
     }
 
-    public boolean menuActions(){
-        boolean login = false;
+    public void menuActions(){
 
         this.appMenu.mMenu();
         switch (this.appMenu.getOpt()){
@@ -160,18 +175,15 @@ public class Scraper {
                 Scanner input = new Scanner(System.in);
                 System.out.println("Username: ");
                 String aux = input.nextLine();
-                if(aux.equals("Pedro Novais Admin")){
-                    login = loginA(aux);
-                    this.logadoA = true;
+                if((aux.equals("Pedro Novais Admin")) || this.curState.getUtilizadores().containsKey(aux)) {
+                    if (aux.equals("Pedro Novais Admin")) {
+                        loginA(aux);
+                    } else {
+                        loginU(aux);
+                    }
+                }else{
+                    System.out.println("Utilizador Não Encontrado !");
                 }
-                else{
-                    login = loginU(aux);
-                    this.logadoU = true;
-                }
-                if(login = true)
-                    System.out.println("Login aceite");
-                else
-                    System.out.println("Login não aceite");
                 break;
             case 2:
                 register();
@@ -192,25 +204,36 @@ public class Scraper {
                 System.out.println("A sair...");
                 break;
         }
-        return login;
     }
 
-    public boolean loginU(String a){
+    public void loginU(String a){
         Scanner input = new Scanner(System.in);
         System.out.println("Password: ");
         String password = input.nextLine();
 
-        this.utilizador = this.curState.getUtilizadores().get(a);
-        return (this.utilizador.validaCredenciais(a,password));
+        if(this.curState.getUtilizadores().get(a).validaCredenciais(a, password)){
+            System.out.println("Login Aceite");
+            this.utilizador = this.curState.getUtilizadores().get(a);
+            this.logadoU = true;
+        }else{
+            System.out.println("Password Errada");
+            this.logadoU = false;
+        }
     }
 
-    public boolean loginA(String a){
+    public void loginA(String a){
         Scanner input = new Scanner(System.in);
         System.out.println("Password: ");
         String password = input.nextLine();
 
-        this.administrador = this.curState.getAdministrador();
-        return(administrador.validaCredenciais(a,password));
+        if(administrador.validaCredenciais(a, password)){
+            System.out.println("Login Aceite");
+            this.administrador = this.curState.getAdministrador();
+            this.logadoA = true;
+        }else{
+            System.out.println("Password Errada");
+            this.logadoA = false;
+        }
     }
 
     public void register(){
@@ -234,7 +257,7 @@ public class Scraper {
         Filme segundo = this.curState.getTop250().get(filme2);
         Filme terceiro = this.curState.getTop250().get(filme3);
 
-        Map<String,Filme> mapa = new HashMap<String, Filme>();
+        Map<String,Filme> mapa = new HashMap<>();
         mapa.put(filme1,primeiro);
         mapa.put(filme2,segundo);
         mapa.put(filme3,terceiro);
